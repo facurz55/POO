@@ -106,6 +106,7 @@ class Gestor {
 private:
 	vector<Alumno*> alumnos;
 public:
+	///CONSIGNA 1)
 	void guardarEntidadesPorTipo() {
 		ofstream archivoInv("invitado.bin", ios::binary);
 		ofstream archivoMed("medio.bin", ios::binary);
@@ -135,6 +136,24 @@ public:
 		archivoPrem.close();
 	}
 	
+	///CONSIGNA 2)
+	vector<Alumno*> listarAprobados(vector<Alumno*> alum){
+		if (alum.empty()) return {};
+		vector<Alumno*> promocionados;
+		for (auto& a : alum) {
+			if (strcmp(a->getTipo(), "invitado") == 0 && a->calcularProm() > 60) {
+				promocionados.push_back(a);
+			} else if (strcmp(a->getTipo(), "medio") == 0 && a->calcularProm() > 70) {
+				promocionados.push_back(a);
+			} else if (strcmp(a->getTipo(), "premium") == 0 && a->calcularProm() > 80) {
+				promocionados.push_back(a);
+			}
+		}
+		return promocionados;
+	}
+	
+	
+	///CONSINA 3)
 	Alumno* cambiarPlan(Alumno* alum, const char* nuevoPlan) {
 		if (strcmp(alum->getTipo(), "invitado") == 0) {
 			if (strcmp(nuevoPlan, "medio") == 0) {
@@ -147,7 +166,35 @@ public:
 		cout << "No se puede cambiar el plan. Solo los invitados pueden cambiar a 'medio' o 'premium'." << endl;
 		return nullptr;
 	}
+	
+	///CONSIGNA 4)
+	vector<Alumno*>promAltos(vector<Alumno*>alum){
+		if(alum.empty()){return{};}
+		int maximo = 0;
+		vector<Alumno*>promMasAlto;
+		for(const auto& u: alum){
+			maximo = max(maximo,u->calcularProm());
+		}
+		for(const auto& u: alum){
+			if(maximo==u->calcularProm()){
+				promMasAlto.push_back(u);
+			}
+		}
+		return promMasAlto;
+	}
+		
+	
+	///CONSIGNA 4)
+	map<string,int>cantXTipo(vector<Alumno*> alum){
+		if(alum.empty()){return{};}
+		map<string, int>cantidades;
+		for(const auto& u: alum){
+			cantidades[u->getTipo()]++;
+		}
+		return cantidades;
+	}
 };
+
 
 int main() {
 	return 0;
